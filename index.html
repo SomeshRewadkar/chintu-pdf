@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pappu-PDF — the PDF editor that never uploads your files</title>
+<meta name="description" content="Edit, sign and convert PDFs entirely in your browser. Nothing is uploaded anywhere.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='2' width='24' height='28' rx='3' fill='%23FFD93D' stroke='%23111' stroke-width='2.5'/%3E%3Ccircle cx='12' cy='14' r='3' fill='%23fff' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='21' cy='14' r='3' fill='%23fff' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='12' cy='15' r='1.2'/%3E%3Ccircle cx='21' cy='15' r='1.2'/%3E%3Cpath d='M11 22q5 4 10 0' stroke='%23111' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════ TOP BAR ═══════════════ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="mascot" id="mascot" title="This is Pappu. Be nice to him.">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <g id="pappu-body">
+          <path class="p-sheet" d="M8 6h37l11 11v41a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z"/>
+          <path class="p-fold" d="M45 6l11 11H48a3 3 0 0 1-3-3z"/>
+          <g id="pappu-eyes">
+            <ellipse class="p-eye" cx="24" cy="30" rx="7" ry="7.5"/>
+            <ellipse class="p-eye" cx="42" cy="30" rx="7" ry="7.5"/>
+            <circle class="p-pupil" id="pupil-l" cx="24" cy="32" r="3.1"/>
+            <circle class="p-pupil" id="pupil-r" cx="42" cy="32" r="3.1"/>
+          </g>
+          <path class="p-mouth" id="pappu-mouth" d="M23 44q9 7 18 0"/>
+          <g id="pappu-sweat" class="p-hidden">
+            <path class="p-drop" d="M54 26c0 0 4 5 4 7a4 4 0 0 1-8 0c0-2 4-7 4-7z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>PAPPU<span>-PDF</span></h1>
+      <p id="pappu-says">Feed me a PDF.</p>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <button class="btn btn-cyan" id="btn-open">📂 Open files</button>
+    <button class="btn btn-sq btn-white" id="btn-undo" title="Undo (Ctrl+Z)">↶</button>
+    <button class="btn btn-sq btn-white" id="btn-redo" title="Redo (Ctrl+Y)">↷</button>
+    <button class="btn btn-lime" id="btn-save">💾 Save PDF</button>
+  </div>
+</header>
+
+<input type="file" id="file-input" accept="application/pdf,image/png,image/jpeg,image/webp" multiple hidden>
+
+<!-- ═══════════════ MAIN LAYOUT ═══════════════ -->
+<div class="app" id="app">
+
+  <!-- ── LEFT: documents + thumbnails ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="section-label">Documents</div>
+      <div class="doc-tabs" id="doc-tabs"></div>
+    </div>
+    <div class="sidebar-section grow">
+      <div class="section-label">
+        Pages
+        <span class="spacer"></span>
+        <button class="mini" id="btn-select-all">all</button>
+        <button class="mini" id="btn-select-none">none</button>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="sel-info" id="sel-info">nothing selected</div>
+    </div>
+  </aside>
+
+  <!-- ── CENTER: stage ── -->
+  <main class="stage">
+    <div class="stage-toolbar" id="stage-toolbar">
+      <button class="btn btn-white tool" data-act="rotate-ccw" title="Rotate left ( [ )">↺</button>
+      <button class="btn btn-white tool" data-act="rotate-cw" title="Rotate right ( ] )">↻</button>
+      <span class="tool-sep"></span>
+      <button class="btn btn-white tool" data-act="duplicate" title="Duplicate selected pages">⧉ Duplicate</button>
+      <button class="btn btn-white tool" data-act="blank" title="Insert a blank page after selection">＋ Blank</button>
+      <button class="btn btn-pink tool" data-act="delete" title="Delete selected pages (Del)">🗑 Delete</button>
+      <span class="tool-sep"></span>
+      <button class="btn btn-white tool" data-act="crop" title="Crop pages">⛶ Crop</button>
+      <button class="btn btn-white tool" data-act="extract" title="Extract selection into a new document">⇱ Extract</button>
+      <button class="btn btn-white tool" data-act="split" title="Split this document">✂ Split</button>
+      <button class="btn btn-white tool" data-act="merge" title="Merge all open documents">⛙ Merge</button>
+      <button class="btn btn-white tool" data-act="moveto" title="Move selected pages to another document">➜ Move to…</button>
+    </div>
+
+    <div class="stage-view" id="stage-view">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-card">
+          <div class="empty-mascot">
+            <svg viewBox="0 0 64 64">
+              <path class="p-sheet" d="M8 6h37l11 11v41a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z"/>
+              <path class="p-fold" d="M45 6l11 11H48a3 3 0 0 1-3-3z"/>
+              <ellipse class="p-eye" cx="24" cy="30" rx="7" ry="7.5"/>
+              <ellipse class="p-eye" cx="42" cy="30" rx="7" ry="7.5"/>
+              <circle class="p-pupil" cx="24" cy="32" r="3.1"/>
+              <circle class="p-pupil" cx="42" cy="32" r="3.1"/>
+              <path class="p-mouth" d="M22 43q10 9 20 0"/>
+            </svg>
+          </div>
+          <h2>Drop a PDF on Pappu</h2>
+          <p>…or images. Everything happens inside your browser — nothing is ever uploaded.</p>
+          <button class="btn btn-yellow big" id="btn-open-2">📂 Choose files</button>
+        </div>
+      </div>
+
+      <div class="page-scroll" id="page-scroll" hidden>
+        <div class="page-wrap" id="page-wrap">
+          <canvas id="stage-canvas"></canvas>
+          <div class="overlay-layer" id="overlay-layer"></div>
+          <div class="crop-layer" id="crop-layer" hidden>
+            <div class="crop-shade" data-side="t"></div>
+            <div class="crop-shade" data-side="b"></div>
+            <div class="crop-shade" data-side="l"></div>
+            <div class="crop-shade" data-side="r"></div>
+            <div class="crop-box" id="crop-box">
+              <span class="ch" data-h="nw"></span><span class="ch" data-h="ne"></span>
+              <span class="ch" data-h="sw"></span><span class="ch" data-h="se"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-nav" id="stage-nav" hidden>
+      <button class="btn btn-sq btn-white" id="btn-prev" title="Previous page">◀</button>
+      <span class="pagecount" id="pagecount">– / –</span>
+      <button class="btn btn-sq btn-white" id="btn-next" title="Next page">▶</button>
+      <span class="tool-sep"></span>
+      <label class="zoomwrap">zoom
+        <input type="range" id="zoom" min="30" max="220" value="100">
+        <span id="zoomval">100%</span>
+      </label>
+    </div>
+  </main>
+
+  <!-- ── RIGHT: tool panel ── -->
+  <aside class="panel">
+    <div class="panel-tabs">
+      <button class="ptab is-on" data-tab="pages">Page</button>
+      <button class="ptab" data-tab="sign">Sign</button>
+      <button class="ptab" data-tab="export">→ Images</button>
+      <button class="ptab" data-tab="build">Images →</button>
+    </div>
+
+    <!-- PAGE PANEL -->
+    <section class="panel-body" data-panel="pages">
+      <div class="pcard">
+        <h3>Page size</h3>
+        <label class="field">Preset
+          <select id="resize-preset">
+            <option value="">— keep original —</option>
+            <option value="a4">A4 · 595×842</option>
+            <option value="a4l">A4 landscape · 842×595</option>
+            <option value="letter">Letter · 612×792</option>
+            <option value="letterl">Letter landscape</option>
+            <option value="legal">Legal · 612×1008</option>
+            <option value="a3">A3 · 842×1191</option>
+            <option value="a5">A5 · 420×595</option>
+            <option value="custom">Custom…</option>
+          </select>
+        </label>
+        <div class="row" id="custom-size" hidden>
+          <label class="field">W <input type="number" id="size-w" value="595" min="10"></label>
+          <label class="field">H <input type="number" id="size-h" value="842" min="10"></label>
+        </div>
+        <button class="btn btn-cyan wide" id="btn-resize">Apply to selection</button>
+        <button class="btn btn-white wide" id="btn-resize-reset">Reset to original</button>
+      </div>
+
+      <div class="pcard">
+        <h3>Crop</h3>
+        <p class="hint">Hit <b>⛶ Crop</b> in the toolbar, drag the box on the page, then apply.</p>
+        <button class="btn btn-cyan wide" id="btn-crop-apply" disabled>Apply to current page</button>
+        <button class="btn btn-white wide" id="btn-crop-all" disabled>Apply to all selected</button>
+        <button class="btn btn-white wide" id="btn-crop-clear">Clear crop on selection</button>
+      </div>
+
+      <div class="pcard">
+        <h3>Insert blank</h3>
+        <label class="field">Where
+          <select id="blank-where">
+            <option value="after">after selection</option>
+            <option value="before">before selection</option>
+            <option value="end">at the end</option>
+            <option value="start">at the start</option>
+          </select>
+        </label>
+        <button class="btn btn-yellow wide" id="btn-blank-2">＋ Insert blank page</button>
+      </div>
+    </section>
+
+    <!-- SIGN PANEL -->
+    <section class="panel-body" data-panel="sign" hidden>
+      <div class="pcard">
+        <div class="seg" id="sig-seg">
+          <button class="is-on" data-sig="draw">✍ Draw</button>
+          <button data-sig="type">⌨ Type</button>
+          <button data-sig="upload">🖼 Upload</button>
+        </div>
+
+        <!-- draw -->
+        <div class="sigmode" data-sigmode="draw">
+          <div class="padwrap">
+            <canvas id="sig-pad" width="600" height="240"></canvas>
+            <span class="padline"></span>
+            <span class="padhint">sign here</span>
+          </div>
+          <div class="row">
+            <div class="swatches" id="sig-colors">
+              <button class="sw is-on" style="--c:#111111" data-c="#111111"></button>
+              <button class="sw" style="--c:#123a9c" data-c="#123a9c"></button>
+              <button class="sw" style="--c:#c0182b" data-c="#c0182b"></button>
+            </div>
+            <label class="field grow">thickness
+              <input type="range" id="sig-width" min="1" max="10" value="4">
+            </label>
+          </div>
+          <div class="row">
+            <button class="btn btn-white grow" id="sig-clear">Clear</button>
+            <button class="btn btn-lime grow" id="sig-save-draw">Save signature</button>
+          </div>
+        </div>
+
+        <!-- type -->
+        <div class="sigmode" data-sigmode="type" hidden>
+          <label class="field">Your name
+            <input type="text" id="sig-text" placeholder="Pappu Kumar" autocomplete="off">
+          </label>
+          <label class="field">Style
+            <select id="sig-font">
+              <option value="PappuCaveat">Caveat</option>
+              <option value="PappuDancing">Dancing Script</option>
+              <option value="PappuVibes">Great Vibes</option>
+              <option value="PappuApple">Homemade Apple</option>
+            </select>
+          </label>
+          <div class="row">
+            <div class="swatches" id="sig-colors-2">
+              <button class="sw is-on" style="--c:#111111" data-c="#111111"></button>
+              <button class="sw" style="--c:#123a9c" data-c="#123a9c"></button>
+              <button class="sw" style="--c:#c0182b" data-c="#c0182b"></button>
+            </div>
+          </div>
+          <div class="typepreview"><canvas id="sig-type-canvas" width="600" height="200"></canvas></div>
+          <button class="btn btn-lime wide" id="sig-save-type">Save signature</button>
+        </div>
+
+        <!-- upload -->
+        <div class="sigmode" data-sigmode="upload" hidden>
+          <input type="file" id="sig-file" accept="image/png,image/jpeg,image/webp" hidden>
+          <button class="btn btn-white wide" id="sig-pick">🖼 Choose an image…</button>
+          <label class="check"><input type="checkbox" id="sig-bg" checked> Knock out white background</label>
+          <label class="field">Cut-off <input type="range" id="sig-thresh" min="120" max="250" value="215"></label>
+          <div class="typepreview"><canvas id="sig-up-canvas" width="600" height="200"></canvas></div>
+          <button class="btn btn-lime wide" id="sig-save-up" disabled>Save signature</button>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <h3>Your signatures</h3>
+        <p class="hint">Click one to stamp it on the page you're viewing. Drag it around, pull the corner to resize, twist the top handle to rotate.</p>
+        <div class="siglib" id="siglib"></div>
+      </div>
+    </section>
+
+    <!-- PDF → IMAGES -->
+    <section class="panel-body" data-panel="export" hidden>
+      <div class="pcard">
+        <h3>PDF → JPG / PNG</h3>
+        <label class="field">Format
+          <select id="ex-format"><option value="png">PNG (lossless)</option><option value="jpeg">JPG (smaller)</option></select>
+        </label>
+        <label class="field" id="ex-qwrap" hidden>JPG quality <input type="range" id="ex-quality" min="40" max="100" value="90"><span id="ex-qval">90</span></label>
+        <label class="field">Resolution
+          <select id="ex-dpi">
+            <option value="72">72 dpi · screen</option>
+            <option value="150" selected>150 dpi · good</option>
+            <option value="300">300 dpi · print</option>
+            <option value="600">600 dpi · huge</option>
+          </select>
+        </label>
+        <label class="field">Pages
+          <select id="ex-scope">
+            <option value="all">every page in this document</option>
+            <option value="sel">selected pages only</option>
+            <option value="cur">just the page I'm looking at</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="ex-zip" checked> Bundle into a .zip</label>
+        <button class="btn btn-yellow wide" id="btn-export-img">📸 Export images</button>
+        <div class="progress" id="ex-progress" hidden><div class="bar" id="ex-bar"></div><span id="ex-label"></span></div>
+      </div>
+    </section>
+
+    <!-- IMAGES → PDF -->
+    <section class="panel-body" data-panel="build" hidden>
+      <div class="pcard">
+        <h3>JPG / PNG → PDF</h3>
+        <input type="file" id="im-file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+        <button class="btn btn-white wide" id="im-pick">🖼 Choose images…</button>
+        <div class="imlist" id="im-list"></div>
+        <label class="field">Page size
+          <select id="im-size">
+            <option value="fit">match each image</option>
+            <option value="a4">A4 portrait</option>
+            <option value="a4l">A4 landscape</option>
+            <option value="letter">Letter portrait</option>
+            <option value="auto">A4, rotated per image</option>
+          </select>
+        </label>
+        <label class="field">Margin <input type="range" id="im-margin" min="0" max="80" value="0"><span id="im-marginval">0 pt</span></label>
+        <button class="btn btn-yellow wide" id="btn-build-pdf" disabled>📄 Build PDF</button>
+        <p class="hint">The result opens as a new document here, so you can still sign or reorder it before saving.</p>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<!-- ═══════════════ CHROME ═══════════════ -->
+<div class="dropveil" id="dropveil"><div class="dropcard">Drop it. Pappu is hungry. 🍽</div></div>
+<div class="toasts" id="toasts"></div>
+<div class="modal-root" id="modal-root" hidden></div>
+<canvas class="confetti" id="confetti" hidden></canvas>
+<div class="busy" id="busy" hidden><div class="busycard"><div class="spinner"></div><span id="busy-text">working…</span></div></div>
+
+<script src="vendor/pdf.min.js"></script>
+<script src="vendor/pdf-lib.min.js"></script>
+<script src="vendor/Sortable.min.js"></script>
+<script src="vendor/jszip.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
