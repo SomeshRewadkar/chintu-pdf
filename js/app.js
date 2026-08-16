@@ -9,7 +9,7 @@ import { openPdf, addImage, renderPage, makeQueue, makeImageDoc,
 import * as ops from './pageops.js';
 import * as sig from './signature.js';
 import { pagesToImages, zipFiles, savePdf, saveDocsAsZip, download, safeName } from './convert.js';
-import { $, $$, toast, pappu, says, busy, modal, confetti, startBlinking, idleLine } from './ui.js';
+import { $, $$, toast, chintu, says, busy, modal, confetti, startBlinking, idleLine } from './ui.js';
 
 /* ══════════════ shared bits ══════════════ */
 
@@ -62,7 +62,7 @@ function renderTabs() {
       const id = draggingPageId;
       draggingPageId = null;
       ops.moveAcross(id, d.id, d.pages.length);
-      pappu('grin', `Page shipped to “${d.name.replace(/\.pdf$/i, '')}”.`);
+      chintu('grin', `Page shipped to “${d.name.replace(/\.pdf$/i, '')}”.`);
       refresh();
     });
 
@@ -241,7 +241,7 @@ async function handleFiles(fileList) {
   const imgs = files.filter(f => /^image\//.test(f.type));
   const junk = files.length - pdfs.length - imgs.length;
 
-  busy(true, 'Pappu is chewing…');
+  busy(true, 'Chintu is chewing…');
   try {
     for (const f of pdfs) {
       try {
@@ -268,7 +268,7 @@ async function handleFiles(fileList) {
 
   if (junk) toast(`Ignored ${junk} file${junk > 1 ? 's' : ''} that wasn't a PDF or image.`, 'bad');
   const total = pages().length;
-  pappu('grin', total ? `${total} page${total > 1 ? 's' : ''}. Delicious.` : idleLine());
+  chintu('grin', total ? `${total} page${total > 1 ? 's' : ''}. Delicious.` : idleLine());
   refresh();
 }
 
@@ -277,8 +277,8 @@ async function handleFiles(fileList) {
 const ACTIONS = {
   'rotate-ccw': () => { ops.rotate(targetPages(), -90); tick(targetPages().length, 'Tilted left.'); },
   'rotate-cw':  () => { ops.rotate(targetPages(), 90);  tick(targetPages().length, 'Tilted right.'); },
-  duplicate:    () => { const n = targetPages().length; ops.duplicate(targetPages()); pappu('grin', `Cloned ${n} page${n > 1 ? 's' : ''}.`); },
-  blank:        () => { ops.insertBlank($('#blank-where').value, selectedPages()); pappu('grin', 'A fresh blank page.'); },
+  duplicate:    () => { const n = targetPages().length; ops.duplicate(targetPages()); chintu('grin', `Cloned ${n} page${n > 1 ? 's' : ''}.`); },
+  blank:        () => { ops.insertBlank($('#blank-where').value, selectedPages()); chintu('grin', 'A fresh blank page.'); },
   delete:       doDelete,
   crop:         () => cropMode ? exitCrop(true) : enterCrop(),
   extract:      doExtract,
@@ -287,14 +287,14 @@ const ACTIONS = {
   moveto:       doMoveTo,
 };
 
-function tick(n, line) { pappu('happy', line); }
+function tick(n, line) { chintu('happy', line); }
 
 function doDelete() {
   const list = targetPages();
   if (!list.length) return;
   if (list.length === pages().length && !confirm('That is every page in this document. Sure?')) return;
   const n = ops.remove(list);
-  pappu('ohno', `Pappu ate ${n} page${n > 1 ? 's' : ''}. 🍽`);
+  chintu('ohno', `Chintu ate ${n} page${n > 1 ? 's' : ''}. 🍽`);
   refresh();
 }
 
@@ -302,7 +302,7 @@ function doExtract() {
   const list = selectedPages();
   if (!list.length) return toast('Tick some pages in the sidebar first.', 'bad');
   ops.extract(list);
-  pappu('grin', `Pulled ${list.length} page${list.length > 1 ? 's' : ''} into a new document.`);
+  chintu('grin', `Pulled ${list.length} page${list.length > 1 ? 's' : ''} into a new document.`);
   refresh();
 }
 
@@ -327,7 +327,7 @@ async function doSplit() {
   const mode = res.querySelector('input[name=sm]:checked').value;
   const n = mode === 'at' ? +res.querySelector('#sp-at').value : +res.querySelector('#sp-n').value;
   const made = ops.split(mode, n);
-  pappu('grin', `Chopped into ${made.length} documents.`);
+  chintu('grin', `Chopped into ${made.length} documents.`);
   refresh();
 }
 
@@ -335,7 +335,7 @@ function doMerge() {
   if (state.docs.length < 2) return toast('Open more than one document first.', 'bad');
   const n = state.docs.length;
   ops.mergeAll();
-  pappu('grin', `${n} documents, now one.`);
+  chintu('grin', `${n} documents, now one.`);
   refresh();
 }
 
@@ -353,7 +353,7 @@ async function doMoveTo() {
   });
   if (!res) return;
   ops.movePages(list, res.querySelector('input[name=mv]:checked').value);
-  pappu('grin', 'Moved. Tip: you can also drag thumbnails onto a document tab.');
+  chintu('grin', 'Moved. Tip: you can also drag thumbnails onto a document tab.');
   refresh();
 }
 
@@ -446,7 +446,7 @@ function wirePagePanel() {
       : PRESETS[v];
     const list = targetPages();
     ops.resize(list, size);
-    pappu('happy', `Resized ${list.length} page${list.length > 1 ? 's' : ''}.`);
+    chintu('happy', `Resized ${list.length} page${list.length > 1 ? 's' : ''}.`);
     refresh();
   };
 
@@ -460,7 +460,7 @@ function wirePagePanel() {
     if (!p) return;
     ops.applyCrop([p], crop);
     exitCrop();
-    pappu('happy', 'Cropped.');
+    chintu('happy', 'Cropped.');
     refresh();
   };
 
@@ -468,7 +468,7 @@ function wirePagePanel() {
     const list = targetPages();
     ops.applyCrop(list, crop);
     exitCrop();
-    pappu('happy', `Cropped ${list.length} page${list.length > 1 ? 's' : ''}.`);
+    chintu('happy', `Cropped ${list.length} page${list.length > 1 ? 's' : ''}.`);
     refresh();
   };
 
@@ -512,7 +512,7 @@ function wireSignPanel() {
   $('#sig-save-draw').onclick = () => {
     if (pad.isEmpty()) return toast('Draw something first!', 'bad');
     const cv = pad.result();
-    if (!cv) return toast('That looked empty to Pappu.', 'bad');
+    if (!cv) return toast('That looked empty to Chintu.', 'bad');
     saveSig(cv);
     pad.clear();
   };
@@ -566,7 +566,7 @@ function wireSignPanel() {
 function saveSig(canvas) {
   const rec = sig.addToLibrary(canvas.toDataURL('image/png'), canvas.width, canvas.height);
   renderSigLib();
-  pappu('grin', 'Signature saved. Click it to stamp a page.');
+  chintu('grin', 'Signature saved. Click it to stamp a page.');
   const p = currentPage();
   if (p) stamp(rec);
 }
@@ -600,7 +600,7 @@ function stamp(s) {
   if (!p) return toast('Open a PDF first.', 'bad');
   sig.stampOnPage(p, s);
   thumbCache.delete(p.id);
-  pappu('smug', 'Stamped. Drag it where you want it.');
+  chintu('smug', 'Stamped. Drag it where you want it.');
   refresh();
 }
 
@@ -626,7 +626,7 @@ function wireExportPanel() {
 
     const bar = $('#ex-bar'), label = $('#ex-label'), prog = $('#ex-progress');
     prog.hidden = false;
-    pappu('busy', 'Rendering…');
+    chintu('busy', 'Rendering…');
 
     try {
       const files = await pagesToImages(
@@ -641,11 +641,11 @@ function wireExportPanel() {
       } else {
         files.forEach((f, i) => setTimeout(() => download(f.blob, f.name), i * 220));
       }
-      pappu('grin', `${files.length} image${files.length > 1 ? 's' : ''} on the way.`);
+      chintu('grin', `${files.length} image${files.length > 1 ? 's' : ''} on the way.`);
       confetti(50);
     } catch (err) {
       toast(`Export failed: ${err.message}`, 'bad', 5000);
-      pappu('ohno');
+      chintu('ohno');
     } finally {
       setTimeout(() => { prog.hidden = true; bar.style.width = '0'; }, 900);
     }
@@ -678,7 +678,7 @@ function wireBuildPanel() {
     state.selection.clear();
     imQueue = [];
     renderImList();
-    pappu('grin', `Built a ${d.pages.length}-page PDF. Save it when you're happy.`);
+    chintu('grin', `Built a ${d.pages.length}-page PDF. Save it when you're happy.`);
     confetti(50);
     refresh();
   };
@@ -732,22 +732,22 @@ async function doSave() {
   }
 
   busy(true, 'Assembling your PDF…');
-  pappu('busy');
+  chintu('busy');
   try {
     if (all) {
-      await saveDocsAsZip(state.docs, 'pappu-pdfs.zip',
+      await saveDocsAsZip(state.docs, 'chintu-pdfs.zip',
         (i, n) => busy(true, `document ${i + 1} of ${n}…`));
-      pappu('grin', 'All of them, zipped.');
+      chintu('grin', 'All of them, zipped.');
     } else {
       const bytes = await savePdf(d, (i, n) => busy(true, `page ${i + 1} of ${n}…`));
-      pappu('grin', `Saved — ${(bytes / 1024 / 1024).toFixed(2)} MB.`);
+      chintu('grin', `Saved — ${(bytes / 1024 / 1024).toFixed(2)} MB.`);
     }
     state.dirty = false;
     confetti();
   } catch (err) {
     console.error(err);
     toast(`Could not build the PDF: ${err.message}`, 'bad', 6000);
-    pappu('ohno', 'That one defeated me.');
+    chintu('ohno', 'That one defeated me.');
   } finally {
     busy(false);
   }
@@ -866,7 +866,7 @@ function init() {
   refresh();
 
   // handy from the devtools console
-  window.PAPPU = { state, ops, sig, doc, pages, refresh, handleFiles };
+  window.CHINTU = { state, ops, sig, doc, pages, refresh, handleFiles };
 }
 
 init();

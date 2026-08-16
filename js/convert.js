@@ -18,7 +18,7 @@ export function download(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
-export const safeName = s => (s || 'pappu').replace(/[\\/:*?"<>|]+/g, '-').trim() || 'pappu';
+export const safeName = s => (s || 'chintu').replace(/[\\/:*?"<>|]+/g, '-').trim() || 'chintu';
 
 /* ── PDF → JPG / PNG ────────────────────────────────────── */
 

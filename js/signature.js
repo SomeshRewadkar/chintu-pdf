@@ -4,7 +4,7 @@
 
 import { state, uid, pageSize, checkpoint, commit } from './state.js';
 
-const LS_KEY = 'pappu.signatures';
+const LS_KEY = 'chintu.signatures';
 
 /* ── the saved library ──────────────────────────────────── */
 

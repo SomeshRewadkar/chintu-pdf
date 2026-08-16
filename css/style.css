@@ -1,14 +1,14 @@
 /* ══════════════════════════════════════════════════════════
-   PAPPU-PDF — neobrutalist sticker design system
+   CHINTU-PDF — neobrutalist sticker design system
    ══════════════════════════════════════════════════════════ */
 
-@font-face { font-family:'PappuDisplay'; src:url('../assets/fonts/ArchivoBlack.ttf') format('truetype'); font-display:swap; }
-@font-face { font-family:'PappuBody'; src:url('../assets/fonts/SpaceGrotesk-Medium.ttf') format('truetype'); font-weight:500; font-display:swap; }
-@font-face { font-family:'PappuBody'; src:url('../assets/fonts/SpaceGrotesk-Bold.ttf') format('truetype'); font-weight:700; font-display:swap; }
-@font-face { font-family:'PappuCaveat'; src:url('../assets/fonts/Caveat.ttf') format('truetype'); font-display:block; }
-@font-face { font-family:'PappuDancing'; src:url('../assets/fonts/DancingScript.ttf') format('truetype'); font-display:block; }
-@font-face { font-family:'PappuVibes'; src:url('../assets/fonts/GreatVibes.ttf') format('truetype'); font-display:block; }
-@font-face { font-family:'PappuApple'; src:url('../assets/fonts/HomemadeApple.ttf') format('truetype'); font-display:block; }
+@font-face { font-family:'ChintuDisplay'; src:url('../assets/fonts/ArchivoBlack.ttf') format('truetype'); font-display:swap; }
+@font-face { font-family:'ChintuBody'; src:url('../assets/fonts/SpaceGrotesk-Medium.ttf') format('truetype'); font-weight:500; font-display:swap; }
+@font-face { font-family:'ChintuBody'; src:url('../assets/fonts/SpaceGrotesk-Bold.ttf') format('truetype'); font-weight:700; font-display:swap; }
+@font-face { font-family:'ChintuCaveat'; src:url('../assets/fonts/Caveat.ttf') format('truetype'); font-display:block; }
+@font-face { font-family:'ChintuDancing'; src:url('../assets/fonts/DancingScript.ttf') format('truetype'); font-display:block; }
+@font-face { font-family:'ChintuVibes'; src:url('../assets/fonts/GreatVibes.ttf') format('truetype'); font-display:block; }
+@font-face { font-family:'ChintuApple'; src:url('../assets/fonts/HomemadeApple.ttf') format('truetype'); font-display:block; }
 
 :root{
   --ink:#141414;
@@ -32,19 +32,19 @@
 html,body{height:100%}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:'PappuBody',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-family:'ChintuBody',system-ui,-apple-system,'Segoe UI',sans-serif;
   font-weight:500; font-size:14px;
   background-image:radial-gradient(var(--grey) 1.6px, transparent 1.6px);
   background-size:22px 22px;
   overflow:hidden;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3{font-family:'PappuDisplay',system-ui,sans-serif; font-weight:400; margin:0; letter-spacing:-.01em}
+h1,h2,h3{font-family:'ChintuDisplay',system-ui,sans-serif; font-weight:400; margin:0; letter-spacing:-.01em}
 button,input,select,textarea{font-family:inherit; font-size:inherit; color:inherit}
 
 /* ── buttons ───────────────────────────────────────────── */
 .btn{
-  font-family:'PappuDisplay',sans-serif; font-size:13px;
+  font-family:'ChintuDisplay',sans-serif; font-size:13px;
   background:var(--paper-2); border:var(--bd) solid var(--ink);
   border-radius:var(--r); padding:9px 14px; cursor:pointer;
   box-shadow:var(--shadow-sm); transition:transform .06s, box-shadow .06s, background .12s;
@@ -64,7 +64,7 @@ button,input,select,textarea{font-family:inherit; font-size:inherit; color:inher
 .btn.wide{display:block; width:100%; margin-top:8px; text-align:center}
 .btn.is-on{background:var(--purple)}
 .mini{
-  font-family:'PappuDisplay',sans-serif; font-size:10px; text-transform:uppercase;
+  font-family:'ChintuDisplay',sans-serif; font-size:10px; text-transform:uppercase;
   background:var(--paper-2); border:2px solid var(--ink); border-radius:7px;
   padding:2px 7px; cursor:pointer; box-shadow:2px 2px 0 var(--ink);
 }
@@ -87,7 +87,7 @@ button,input,select,textarea{font-family:inherit; font-size:inherit; color:inher
 .p-mouth{fill:none; stroke:var(--ink); stroke-width:3.5; stroke-linecap:round; transition:d .15s}
 .p-drop{fill:var(--cyan); stroke:var(--ink); stroke-width:2.5}
 .p-hidden{display:none}
-.mascot.blink #pappu-eyes{transform:scaleY(.12); transform-origin:center 30px}
+.mascot.blink #chintu-eyes{transform:scaleY(.12); transform-origin:center 30px}
 .mascot.spin{animation:wobble .6s infinite}
 @keyframes wobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 .mascot.pop{animation:pop .35s}
@@ -107,7 +107,7 @@ button,input,select,textarea{font-family:inherit; font-size:inherit; color:inher
 .sidebar-section{display:flex; flex-direction:column; min-height:0; border-bottom:var(--bd) solid var(--ink)}
 .sidebar-section.grow{flex:1; border-bottom:none}
 .section-label{
-  font-family:'PappuDisplay',sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:.09em;
+  font-family:'ChintuDisplay',sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:.09em;
   padding:8px 10px; background:var(--grey); border-bottom:2px solid var(--ink);
   display:flex; align-items:center; gap:5px; flex:none;
 }
@@ -142,7 +142,7 @@ button,input,select,textarea{font-family:inherit; font-size:inherit; color:inher
 .thumb.is-cur{border-color:var(--pink); border-width:3px}
 .thumb .t-num{
   position:absolute; left:3px; bottom:3px; background:var(--ink); color:var(--paper-2);
-  font-family:'PappuDisplay',sans-serif; font-size:10px; padding:1px 6px; border-radius:20px;
+  font-family:'ChintuDisplay',sans-serif; font-size:10px; padding:1px 6px; border-radius:20px;
 }
 .thumb .t-badge{
   position:absolute; right:3px; top:3px; background:var(--yellow); border:2px solid var(--ink);
@@ -173,7 +173,7 @@ button,input,select,textarea{font-family:inherit; font-size:inherit; color:inher
   flex:none; display:flex; gap:9px; align-items:center; justify-content:center;
   padding:8px; border-top:var(--bd) solid var(--ink); background:var(--paper-2);
 }
-.pagecount{font-family:'PappuDisplay',sans-serif; font-size:13px; min-width:82px; text-align:center}
+.pagecount{font-family:'ChintuDisplay',sans-serif; font-size:13px; min-width:82px; text-align:center}
 .zoomwrap{display:flex; align-items:center; gap:7px; font-size:11px; font-weight:700; text-transform:uppercase}
 input[type=range]{accent-color:var(--pink); width:120px}
 
@@ -219,7 +219,7 @@ input[type=range]{accent-color:var(--pink); width:120px}
 .panel-tabs{display:flex; flex:none; border-bottom:var(--bd) solid var(--ink); background:var(--grey)}
 .ptab{
   flex:1; background:none; border:none; border-right:2px solid var(--ink); cursor:pointer;
-  font-family:'PappuDisplay',sans-serif; font-size:10.5px; padding:11px 2px; text-transform:uppercase;
+  font-family:'ChintuDisplay',sans-serif; font-size:10.5px; padding:11px 2px; text-transform:uppercase;
 }
 .ptab:last-child{border-right:none}
 .ptab:hover{background:var(--cyan)}
@@ -247,7 +247,7 @@ input[type=range]{accent-color:var(--pink); width:120px}
 .seg{display:flex; border:2.5px solid var(--ink); border-radius:10px; overflow:hidden; margin-bottom:11px}
 .seg button{
   flex:1; background:var(--paper-2); border:none; border-right:2.5px solid var(--ink); cursor:pointer;
-  font-family:'PappuDisplay',sans-serif; font-size:10px; padding:8px 2px;
+  font-family:'ChintuDisplay',sans-serif; font-size:10px; padding:8px 2px;
 }
 .seg button:last-child{border-right:none}
 .seg button.is-on{background:var(--yellow)}
@@ -310,7 +310,7 @@ input[type=range]{accent-color:var(--pink); width:120px}
   align-items:center; justify-content:center}
 .dropveil.on{display:flex}
 .dropcard{background:var(--paper-2); border:5px dashed var(--ink); border-radius:24px; padding:44px 60px;
-  font-family:'PappuDisplay',sans-serif; font-size:26px; animation:bob 1.4s infinite}
+  font-family:'ChintuDisplay',sans-serif; font-size:26px; animation:bob 1.4s infinite}
 
 .modal-root{position:fixed; inset:0; background:rgba(20,20,20,.55); z-index:95; display:flex;
   align-items:center; justify-content:center; padding:20px}

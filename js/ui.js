@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════
-   ui.js — chrome: Pappu's moods, toasts, modals, confetti
+   ui.js — chrome: Chintu's moods, toasts, modals, confetti
    ══════════════════════════════════════════════════════════ */
 
 export const $  = (sel, root = document) => root.querySelector(sel);
@@ -18,7 +18,7 @@ export function toast(msg, kind = 'info', ms = 2600) {
   }, ms);
 }
 
-/* ── Pappu ──────────────────────────────────────────────── */
+/* ── Chintu ──────────────────────────────────────────────── */
 
 const MOUTHS = {
   happy:   'M23 44q9 7 18 0',
@@ -30,13 +30,13 @@ const MOUTHS = {
 
 let sayTimer = null;
 
-export function pappu(mood = 'happy', line = null) {
-  const m = document.getElementById('pappu-mouth');
+export function chintu(mood = 'happy', line = null) {
+  const m = document.getElementById('chintu-mouth');
   const el = document.getElementById('mascot');
   if (m && MOUTHS[mood]) m.setAttribute('d', MOUTHS[mood]);
   if (el) {
     el.classList.toggle('spin', mood === 'busy');
-    document.getElementById('pappu-sweat')
+    document.getElementById('chintu-sweat')
       ?.classList.toggle('p-hidden', mood !== 'ohno' && mood !== 'busy');
     if (mood === 'grin') {
       el.classList.remove('pop');
@@ -48,7 +48,7 @@ export function pappu(mood = 'happy', line = null) {
 }
 
 export function says(line, holdMs = 4200) {
-  const p = document.getElementById('pappu-says');
+  const p = document.getElementById('chintu-says');
   if (!p) return;
   p.textContent = line;
   clearTimeout(sayTimer);
@@ -59,7 +59,7 @@ const IDLE = [
   'Feed me a PDF.',
   'Nothing leaves this browser. Promise.',
   'Drag pages around. Go on.',
-  'Pappu is just vibing.',
+  'Chintu is just vibing.',
   'Try signing something.',
 ];
 export const idleLine = () => IDLE[Math.floor(Math.random() * IDLE.length)];
@@ -75,7 +75,7 @@ export function startBlinking() {
   };
   setTimeout(tick, 1800);
   el.addEventListener('click', () => {
-    pappu('grin', 'Ow. But also thank you.');
+    chintu('grin', 'Ow. But also thank you.');
   });
 }
 
@@ -85,7 +85,7 @@ export function busy(on, text = 'working…') {
   const b = document.getElementById('busy');
   document.getElementById('busy-text').textContent = text;
   b.hidden = !on;
-  if (on) pappu('busy');
+  if (on) chintu('busy');
 }
 
 /* ── modal ──────────────────────────────────────────────── */

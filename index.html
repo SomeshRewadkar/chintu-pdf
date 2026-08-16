@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pappu-PDF — the PDF editor that never uploads your files</title>
+<title>Chintu-PDF — the PDF editor that never uploads your files</title>
 <meta name="description" content="Edit, sign and convert PDFs entirely in your browser. Nothing is uploaded anywhere.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='2' width='24' height='28' rx='3' fill='%23FFD93D' stroke='%23111' stroke-width='2.5'/%3E%3Ccircle cx='12' cy='14' r='3' fill='%23fff' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='21' cy='14' r='3' fill='%23fff' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='12' cy='15' r='1.2'/%3E%3Ccircle cx='21' cy='15' r='1.2'/%3E%3Cpath d='M11 22q5 4 10 0' stroke='%23111' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
@@ -13,27 +13,27 @@
 <!-- ═══════════════ TOP BAR ═══════════════ -->
 <header class="topbar">
   <div class="brand">
-    <div class="mascot" id="mascot" title="This is Pappu. Be nice to him.">
+    <div class="mascot" id="mascot" title="This is Chintu. Be nice to him.">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <g id="pappu-body">
+        <g id="chintu-body">
           <path class="p-sheet" d="M8 6h37l11 11v41a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z"/>
           <path class="p-fold" d="M45 6l11 11H48a3 3 0 0 1-3-3z"/>
-          <g id="pappu-eyes">
+          <g id="chintu-eyes">
             <ellipse class="p-eye" cx="24" cy="30" rx="7" ry="7.5"/>
             <ellipse class="p-eye" cx="42" cy="30" rx="7" ry="7.5"/>
             <circle class="p-pupil" id="pupil-l" cx="24" cy="32" r="3.1"/>
             <circle class="p-pupil" id="pupil-r" cx="42" cy="32" r="3.1"/>
           </g>
-          <path class="p-mouth" id="pappu-mouth" d="M23 44q9 7 18 0"/>
-          <g id="pappu-sweat" class="p-hidden">
+          <path class="p-mouth" id="chintu-mouth" d="M23 44q9 7 18 0"/>
+          <g id="chintu-sweat" class="p-hidden">
             <path class="p-drop" d="M54 26c0 0 4 5 4 7a4 4 0 0 1-8 0c0-2 4-7 4-7z"/>
           </g>
         </g>
       </svg>
     </div>
     <div class="brand-text">
-      <h1>PAPPU<span>-PDF</span></h1>
-      <p id="pappu-says">Feed me a PDF.</p>
+      <h1>CHINTU<span>-PDF</span></h1>
+      <p id="chintu-says">Feed me a PDF.</p>
     </div>
   </div>
 
@@ -99,7 +99,7 @@
               <path class="p-mouth" d="M22 43q10 9 20 0"/>
             </svg>
           </div>
-          <h2>Drop a PDF on Pappu</h2>
+          <h2>Drop a PDF on Chintu</h2>
           <p>…or images. Everything happens inside your browser — nothing is ever uploaded.</p>
           <button class="btn btn-yellow big" id="btn-open-2">📂 Choose files</button>
         </div>
@@ -226,14 +226,14 @@
         <!-- type -->
         <div class="sigmode" data-sigmode="type" hidden>
           <label class="field">Your name
-            <input type="text" id="sig-text" placeholder="Pappu Kumar" autocomplete="off">
+            <input type="text" id="sig-text" placeholder="Chintu Kumar" autocomplete="off">
           </label>
           <label class="field">Style
             <select id="sig-font">
-              <option value="PappuCaveat">Caveat</option>
-              <option value="PappuDancing">Dancing Script</option>
-              <option value="PappuVibes">Great Vibes</option>
-              <option value="PappuApple">Homemade Apple</option>
+              <option value="ChintuCaveat">Caveat</option>
+              <option value="ChintuDancing">Dancing Script</option>
+              <option value="ChintuVibes">Great Vibes</option>
+              <option value="ChintuApple">Homemade Apple</option>
             </select>
           </label>
           <div class="row">
@@ -319,7 +319,7 @@
 </div>
 
 <!-- ═══════════════ CHROME ═══════════════ -->
-<div class="dropveil" id="dropveil"><div class="dropcard">Drop it. Pappu is hungry. 🍽</div></div>
+<div class="dropveil" id="dropveil"><div class="dropcard">Drop it. Chintu is hungry. 🍽</div></div>
 <div class="toasts" id="toasts"></div>
 <div class="modal-root" id="modal-root" hidden></div>
 <canvas class="confetti" id="confetti" hidden></canvas>

@@ -1,4 +1,4 @@
-# Pappu-PDF
+# Chintu-PDF
 
 A PDF editor that runs entirely in the browser. No server, no uploads, no build step —
 open `index.html` from any static host and it works.
@@ -47,14 +47,14 @@ Then open <http://localhost:8777>.
 ```bash
 git init
 git add .
-git commit -m "Pappu-PDF"
+git commit -m "Chintu-PDF"
 git branch -M main
-git remote add origin https://github.com/<you>/pappu-pdf.git
+git remote add origin https://github.com/<you>/chintu-pdf.git
 git push -u origin main
 ```
 
 Then on GitHub: **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)` → Save.**
-A minute later it's live at `https://<you>.github.io/pappu-pdf/`. Every later `git push` redeploys it.
+A minute later it's live at `https://<you>.github.io/chintu-pdf/`. Every later `git push` redeploys it.
 
 ## How it's put together
 
@@ -66,7 +66,7 @@ js/render.js        pdf.js loading, page → canvas
 js/pageops.js       every page operation + the pdf-lib exporter
 js/signature.js     draw / type / upload, and the draggable stamps
 js/convert.js       image export, zipping, downloads
-js/ui.js            toasts, modals, confetti, Pappu's moods
+js/ui.js            toasts, modals, confetti, Chintu's moods
 js/app.js           wiring
 vendor/             pdf-lib, pdf.js, SortableJS, JSZip (committed, no npm)
 ```
